@@ -1,0 +1,118 @@
+<MyApp>:
+FloatLayout:
+    canvas.before:
+        Color:
+            rgb: 0.552, 0.811, 0.819
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    Label:
+        pos_hint: {'center_x':0.5, 'top':.8}
+        size_hint: .7,.1
+        font_size: 15
+        text: 'Keep notes safe and secure'
+    Label:
+        pos_hint: {'center_x':0.5, 'top':.7}
+        size_hint: .7,.1
+        font_size: 12
+        text: 'Easily get tasks done'
+        font_name: 'Arial'
+    Button:
+        text: "Continue"
+        on_press: root.manager.current = 'notes'
+        pos_hint: {'center_x':.5, 'center_y':.3}
+        size_hint: .4, .15
+        color: 0, 0, 0, 1
+        font_size: 0.14 * self.width
+        background_normal: ''
+        background_color: 0, 0, 0, 0
+        canvas.before:
+            Color:
+                rgb: 255, 255, 255
+            RoundedRectangle:
+                size: self.size
+                pos: self.pos
+                radius: [6,]
+
+<ScreenManagement>:
+    MenuScreen:
+        id: name
+        name: 'notes'
+    SettingsScreen:
+        id: settings
+        name: 'test'
+    NewNote:
+        id: note
+        name: 'note'
+
+<MenuScreen>:
+    FloatLayout:
+        Button:           
+            text: "Continue"
+            on_release: 
+                root.manager.current = 'test'
+                root.manager.ids.settings.func_abc(self)    # optional: passing Button instance
+            pos_hint: {'center_x':.5, 'center_y':.3}
+            size_hint: .6, .18
+            color: 0, 0, 0, 1
+            font_size: 0.20 * self.width
+            background_normal: ''
+            background_color: 0, 0, 0, 0
+        Image:
+            source: 'finished.png'
+            size_hint: .9, .20
+            pos_hint: {'center_x':.5, 'center_y':.6}
+            
+
+<SettingsScreen>:
+    lbl:my_label
+    BoxLayout:
+    ImageButton:  
+        source:'add.png'  
+        size_hint: .2, .2  
+        on_release: 
+            root.manager.current = 'note'
+    Label: 
+        # id is limited in scope to the rule 
+        # it is declared in. An id is a weakref 
+        # to the widget and not the widget itself. 
+        id: my_label 
+        text: ''
+        color: [0, 0, 0, 19] 
+    Label:
+        id: label1
+        text: root.showtext()
+        color: [0, 0, 0, 19]
+<NewNote>:
+    nam: str(name_input)
+    job: job_input
+    GridLayout:
+        cols: 2
+        Label:
+            text: 'Title:'
+            color: [0, 0, 0, 19]
+            height: 50
+            color: [0, 0, 0, 19]
+        TextInput:
+            id: name_input
+            multiline: True
+            color: [0, 0, 0, 19]
+        Label:
+            text: 'Notes:'    
+            color: [0, 0, 0, 19]
+        TextInput:
+            id: job_input
+            multiline: True
+        Button:
+            text: 'Back to notes'
+            on_press: root.manager.current = 'test'
+            size_hint: (None, None)
+            size: 85, 50
+            font_size: 12
+        Button:
+            text: 'Save'
+            on_press: app.save(name_input.text, job_input.text)
+            size_hint: (None, None)
+            size: 85, 50
+            font_size: 12
+        
